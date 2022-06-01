@@ -1,45 +1,50 @@
 using UnityEngine;
 using System.Collections;
-public class MouseLook : MonoBehaviour
+
+public class PlayerMove : MonoBehaviour
 {
-    public enum RotationAxes
-    {
-        MouseXAndY = 0,
-        MouseX = 1,
-        MouseY = 2
-    }
-    public RotationAxes axes = RotationAxes.MouseXAndY;
-    public float sensitivityHor = 9.0f;
-    public float sensitivityVert = 9.0f;
-    public float minimumVert = -45.0f;
-    public float maximumVert = 45.0f;
-    private float _rotationX = 0;
+    public float rotateSpeed = 15f;
     void Start()
     {
         Rigidbody body = GetComponent<Rigidbody>();
-        if (body != null)
-            body.freezeRotation = true;
     }
     void Update()
     {
-        if (axes == RotationAxes.MouseX)
+        getMoveObject();
+        Jump();
+    }
+    public void getMoveObject()
+    {
+        //float moveHorizontal = Input.GetAxis("Horizontal");
+        //float moveVertical = Input.GetAxis("Vertical");
+        if (Input.GetKey(KeyCode.D))
         {
-            transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityHor, 0);
+            transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime * 5);
         }
-        else if (axes == RotationAxes.MouseY)
+        if (Input.GetKey(KeyCode.A))
         {
-            _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert;
-            _rotationX = Mathf.Clamp(_rotationX, minimumVert, maximumVert);
-            float rotationY = transform.localEulerAngles.y;
-            transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
+            transform.Rotate(Vector3.up, -rotateSpeed * Time.deltaTime * 5);
         }
-        else
+        if (Input.GetKey(KeyCode.W))
         {
-            _rotationX -= Input.GetAxis("Mouse Y") * sensitivityVert;
-            _rotationX = Mathf.Clamp(_rotationX, minimumVert, maximumVert);
-            float delta = Input.GetAxis("Mouse X") * sensitivityHor;
-            float rotationY = transform.localEulerAngles.y + delta;
-            transform.localEulerAngles = new Vector3(_rotationX, rotationY, 0);
+            Rigidbody body = GetComponent<Rigidbody>();
+            body.useGravity = false;
+            transform.Translate(Vector3.forward * rotateSpeed * Time.deltaTime);
+            body.useGravity = true;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            Rigidbody body = GetComponent<Rigidbody>();
+            body.useGravity = false;
+            transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+            body.useGravity = true;
+        }
+    }
+    public void Jump()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            transform.Translate(Vector3.up * rotateSpeed * Time.deltaTime);
         }
     }
 }
