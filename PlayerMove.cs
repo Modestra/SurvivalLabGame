@@ -3,12 +3,14 @@ using System.Collections;
 
 public class PlayerMove : MonoBehaviour
 {
+    Rigidbody body;
     public float rotateSpeed = 15f;
+    public float jumpforce = 100f;
     void Start()
     {
-        Rigidbody body = GetComponent<Rigidbody>();
+        body = GetComponent<Rigidbody>();
     }
-    void Update()
+    void FixedUpdate()
     {
         getMoveObject();
         Jump();
@@ -27,14 +29,12 @@ public class PlayerMove : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.W))
         {
-            Rigidbody body = GetComponent<Rigidbody>();
             body.useGravity = false;
             transform.Translate(Vector3.forward * rotateSpeed * Time.deltaTime);
             body.useGravity = true;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            Rigidbody body = GetComponent<Rigidbody>();
             body.useGravity = false;
             transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
             body.useGravity = true;
@@ -44,7 +44,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            transform.Translate(Vector3.up * rotateSpeed * Time.deltaTime);
+            body.AddForce(Vector3.up * jumpforce);
         }
     }
 }
