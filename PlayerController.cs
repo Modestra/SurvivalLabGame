@@ -10,10 +10,10 @@ public class PlayerController : MonoBehaviour
     public GameObject preferencePrefub;
     void Start()
     {
-        
+        InvokeRepeating("ShotBurgers", 0.3f, 0.1f);
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (transform.position.x < -xRange)
         {
@@ -25,9 +25,15 @@ public class PlayerController : MonoBehaviour
         }
         horizontal = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.right * Time.deltaTime * horizontal * speed);
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (preferencePrefub == null)
         {
             Instantiate(preferencePrefub, transform.position, transform.rotation);
+            preferencePrefub.name = "Food_Sandwich_01";
         }
+    }
+    void ShotBurgers()
+    {
+        Instantiate(preferencePrefub, transform.position, transform.rotation);
+        preferencePrefub.name = "Food_Sandwich_01";
     }
 }
