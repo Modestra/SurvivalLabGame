@@ -4,8 +4,11 @@ using System.Collections;
 public class PlayerMove : MonoBehaviour
 {
     Rigidbody body;
-    public float rotateSpeed = 15f;
+    public float rotateSpeed = 300f;
+    public float distanceSpeed = 15f;
     public float jumpforce = 100f;
+    public GameObject playerHead;
+    public GameObject player;
     void Start()
     {
         body = GetComponent<Rigidbody>();
@@ -17,26 +20,19 @@ public class PlayerMove : MonoBehaviour
     }
     public void getMoveObject()
     {
-        //float moveHorizontal = Input.GetAxis("Horizontal");
-        //float moveVertical = Input.GetAxis("Vertical");
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime * 5);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(Vector3.up, -rotateSpeed * Time.deltaTime * 5);
-        }
+        float moveHorizontal = Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime;
+        float moveVertical = -Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime;
+        playerHead.transform.rotation *= Quaternion.Euler(moveVertical, moveHorizontal, 0);
         if (Input.GetKey(KeyCode.W))
         {
             body.useGravity = false;
-            transform.Translate(Vector3.forward * rotateSpeed * Time.deltaTime);
+            player.transform.Translate(Vector3.forward * distanceSpeed * Time.deltaTime);
             body.useGravity = true;
         }
         if (Input.GetKey(KeyCode.S))
         {
             body.useGravity = false;
-            transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+            player.transform.Rotate(Vector3.forward * distanceSpeed * Time.deltaTime);
             body.useGravity = true;
         }
     }
