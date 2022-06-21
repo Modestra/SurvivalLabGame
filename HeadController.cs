@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class HeadController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float xPos, yPos;
+    public GameObject head;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        xPos += Input.GetAxis("Mouse X");
+        yPos += Input.GetAxis("Mouse Y");
+        head.transform.rotation = Quaternion.Euler(-yPos,xPos,0);
+        transform.rotation = Quaternion.Euler(-yPos, xPos, 0);
     }
 }
