@@ -5,6 +5,7 @@ using UnityEngine;
 public class HeadController : MonoBehaviour
 {
     public float xPos, yPos;
+    public float rotateSpeed;
     public GameObject head;
     private float horizontal, vertical;
     void Start()
@@ -18,8 +19,8 @@ public class HeadController : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         xPos += Input.GetAxis("Mouse X");
         yPos += Input.GetAxis("Mouse Y");
-        head.transform.rotation = Quaternion.Euler(-yPos,xPos,0);
-        transform.rotation = Quaternion.Euler(-yPos, xPos, 0);
+        head.transform.rotation = Quaternion.Euler(-yPos * rotateSpeed,xPos * rotateSpeed,0);
+        transform.rotation = Quaternion.Euler(-yPos * rotateSpeed, xPos * rotateSpeed, 0);
         transform.Translate(Vector3.forward * Time.deltaTime * 10 * vertical);
         transform.Rotate(Vector3.up, Time.deltaTime * 10 * horizontal);
     }
